@@ -62,7 +62,7 @@ const showLoader = function () {
 const hideLoader = function () {
     loaderTimeout = setTimeout(function () {
         loader.style.visibility = 'hidden';
-        loaderTimeout.clearTimeout();
+        clearTimeout(loaderTimeout);
     }, 700);
 }
 
@@ -93,14 +93,13 @@ const renderPictures = function (list) {
 
     const clone = templateImageCard.content.cloneNode(true);
     const fragment = document.createDocumentFragment();
+    const link = clone.querySelector('a');
+    const image = clone.querySelector('img');
 
     list.forEach(function (element) {
-        const link = clone.querySelector('a');
-
         link.href = element.url;
-        link.dataset.id = element.id;
 
-        const image = clone.querySelector('img');
+        link.dataset.id = element.id;
         image.src = cropImage(element.download_url, 5);
         image.alt = element.author;
         image.classList.add('preview');
@@ -172,7 +171,7 @@ const imageHandler = function (evt) {
     evt.preventDefault();
 
     if (evt.target.closest('a')) {
-        getPictureInfo(evt.target.dataset.id);
+        getPictureInfo(evt.target.closest('a').dataset.id);
     }
 }
 
